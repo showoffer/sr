@@ -1,0 +1,41 @@
+@import "App.scss";
+
+.regions-form {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    /*justify-content: space-between;*/
+}
+
+.check-all-btn {
+    background: none;
+    border: 1px solid $app-grey-color;
+    border-radius: 8px;
+    color: $app-grey-color;
+    /*margin: 0 20px;*/
+    padding: 10px 15px;
+    font-size: 1.6rem;
+    cursor: pointer;
+    outline: none;
+    margin-right: 3.2rem;
+}
+
+.check-all-btn.checked {
+    border-color: transparent;
+    background-color: $app-green-color;
+}
+
+.check-all-btn.checked .checkbox-button-label {
+    /*display: inline-block;*/
+    color: white;
+    font-weight: 600;
+}
+
+.check-all-btn .checkbox-button-label::after {
+    display: block;
+    content: attr(title);
+    font-weight: 600;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+}

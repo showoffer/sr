@@ -1,0 +1,12 @@
+@import "App.scss";
+
+.WithBorder {
+    /*height: 1.8rem;*/
+    /*display: flex;*/
+    /*align-content: center;*/
+    padding: 0 32px;
+}
+
+.border-left {
+    border-left: .1rem solid $app-grey-color;
+}

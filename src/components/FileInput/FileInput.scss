@@ -1,0 +1,33 @@
+@import "App.scss";
+
+.FileInput-wrap {
+    margin-bottom: 2.2rem;
+}
+
+.FileInput-wrap * {
+    font-size: 1.4rem;
+}
+
+.FileInput-wrap label {
+    color: $app-green-color;
+    padding-bottom: .2rem;
+    cursor: pointer;
+}
+
+.FileInput-filename {
+    color: $app-grey-color;
+    margin-left: 1.3rem;
+}
+
+.FileInput-wrap label:hover {
+    border-bottom: 2px $app-green-color solid;
+}
+
+.FileInput {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}

@@ -1,0 +1,61 @@
+@import "App.scss";
+
+.GraphShell {
+    background-color: #fff;
+    padding: 2.4rem;
+    box-sizing: border-box;
+    border-radius: .8rem;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.04);
+}
+
+.GraphShell-Title-Wrap {
+    display: flex;
+    align-items: center;
+    padding-bottom: 1.4rem;
+}
+
+.GraphShell-Title {
+    padding-left: .7rem;
+    border-left: 1px #e0e0e0 solid;
+    font-weight: 600;
+}
+
+.GraphShell-Title-Percent {
+    font-weight: bold;
+    margin-right: 1.8rem;
+}
+
+.GraphShell-Title-Percent .value {
+    font-size: 2rem;
+}
+
+.GraphShell-Title-Percent .sign {
+    font-size: 1.4rem;
+}
+
+.GraphShell-Sum-Wrap {
+    padding-bottom: 1.4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.GraphShell-Sum {
+    display: flex;
+    align-items: center;
+}
+
+.GraphShell-Sum .title {
+    text-transform: uppercase;
+    color: $app-grey-color;
+    margin-right: 10px;
+}
+
+.GraphShell-Sum .value {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.GraphShell-FullValue {
+    color: $app-grey-color;
+}

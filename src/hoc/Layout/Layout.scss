@@ -1,0 +1,85 @@
+@import "App.scss";
+
+.Layout {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: $app-bg-color;
+    position: relative;
+}
+
+.Layout .header {
+    padding: $app-offset;
+    background-color: $app-header-color;
+}
+
+.Layout .Layout-container {
+    flex: 1;
+    display: flex;
+}
+
+.Layout .sidebar {
+    box-sizing: border-box;
+    width: 260px;
+    background-color: $app-sidebar-color;
+    padding: $app-offset;
+    padding-bottom: 0;
+    /*overflow: auto;*/
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.Layout .sidebar .sidebar-scrollview {
+    overflow: auto;
+    flex: 1;
+}
+
+.Layout .sidebar .title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 2.5rem;
+}
+
+.Layout .sidebar .bottom-gradient {
+    width: 100%;
+    height: 4rem;
+    background-image: linear-gradient(to bottom, rgba(242, 245, 250, 0), #f2f5fa);
+    bottom: 0;
+    left: 0;
+    position: absolute;
+}
+
+.Layout .main {
+    flex: 1;
+    padding: $app-offset;
+    overflow: auto;
+}
+
+.loader-outer {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    background: #fff;
+    transition: opacity .75s;
+}
+
+.loader {
+    border: 2px solid #f3f3f3; /* Light grey */
+    border-top: 2px solid $app-green-color; /* Blue */
+    border-radius: 50%;
+    width: 3.0rem;
+    height: 3rem;
+    animation: spin 1s linear infinite;
+    left: 48%;
+    top: 48%;
+    position: absolute;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
