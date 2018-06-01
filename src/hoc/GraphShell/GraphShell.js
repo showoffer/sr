@@ -9,7 +9,8 @@ type Props = {
   maxValue: number,
   title: string,
   children: any,
-  color: string
+  color: string,
+  routerProps: any
 };
 
 const GraphShell = (props: Props) => {
@@ -20,11 +21,16 @@ const GraphShell = (props: Props) => {
   return (
     <div className="GraphShell">
       <div className="GraphShell-Title-Wrap">
-        <div className="GraphShell-Title-Percent" style={{ color }}>
-          <span className="value">{percentValue}</span>
-          <span className="sign">%</span>
+        <div className="GraphShell-Title-left">
+          <div className="GraphShell-Title-Percent" style={{ color }}>
+            <span className="value">{percentValue}</span>
+            <span className="sign">%</span>
+          </div>
+          <div className="GraphShell-Title">{title}</div>
         </div>
-        <div className="GraphShell-Title">{title}</div>
+        <div className="GraphShell-Title-right">
+          <div className="DetailsImg" />
+        </div>
       </div>
       <div className="GraphShell-Sum-Wrap">
         <div className="GraphShell-Sum">

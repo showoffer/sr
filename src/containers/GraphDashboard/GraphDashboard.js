@@ -4,6 +4,7 @@ import GraphProgressbar from "../../components/GraphProgressbar/GraphProgressbar
 import { connect } from "react-redux";
 import type Graph from "../../store/models/Graph";
 import "./GraphDashboard.css";
+import { Link } from "react-router-dom";
 
 // type Props = {
 //   graphs: Graph[];
@@ -16,19 +17,30 @@ class GraphDashboard extends Component {
         {this.props.graphs.map((g: Graph) => {
           return (
             <div className="tile" key={g.title}>
-              <GraphShell
-                value={g.value}
-                maxValue={g.maxValue}
-                color={g.startColor}
-                title={g.title}
+              <Link
+                to={{
+                  pathname: `/deals/${g.title}`,
+                  state: {
+                    title: g.title
+                  }
+                }}
+                className="GraphLink"
               >
-                <GraphProgressbar
+                <GraphShell
                   value={g.value}
                   maxValue={g.maxValue}
-                  startColor={g.startColor}
-                  endColor={g.endColor}
-                />
-              </GraphShell>
+                  color={g.startColor}
+                  title={g.title}
+                  routerProps={this.props.routerProps}
+                >
+                  <GraphProgressbar
+                    value={g.value}
+                    maxValue={g.maxValue}
+                    startColor={g.startColor}
+                    endColor={g.endColor}
+                  />
+                </GraphShell>
+              </Link>
             </div>
           );
         })}

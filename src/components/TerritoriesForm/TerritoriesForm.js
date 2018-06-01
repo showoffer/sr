@@ -1,9 +1,11 @@
 import React from "react";
 // import PropTypes from 'prop-types';
-import Checkbox from "../Checkbox/Checkbox";
+import CheckboxContainer from "../../containers/CheckboxContainer/CheckboxContainer";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import "./TerritoriesForm.css";
+import View from "../View/View";
+import { CHECKBOX_OFFSET } from "../../const/CHECKBOX_LAYOUT";
 
 const onChangeHandler = (values, dispatch, props) => {
   const { subject } = props;
@@ -18,9 +20,9 @@ const TerritoriesForm = props => {
     <form className="TerritoriesForm">
       {props.territories.map((t, i) => {
         return (
-          <div style={{ padding: "8px 0" }} key={t}>
-            <Field name={t} component={Checkbox} type="Checkbox" label={t} />
-          </div>
+          <View style={{ padding: `${CHECKBOX_OFFSET}px 0` }} key={t}>
+            <Field name={t} component={CheckboxContainer} label={t} />
+          </View>
         );
       })}
     </form>
@@ -41,6 +43,7 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(
   reduxForm({
     form: "territories",
-    onChange: onChangeHandler
+    onChange: onChangeHandler,
+    destroyOnUnmount: false
   })(TerritoriesForm)
 );

@@ -1,30 +1,32 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-// import PropTypes from 'prop-types';
 import RegionsForm from "../../components/RegionsForm/RegionsForm";
 import "./Layout.css";
 import TerritoriesForm from "../../components/TerritoriesForm/TerritoriesForm";
 import UploaderForm from "../../components/UploaderForm/UploaderForm";
 import * as actionCreators from "../../store/actions/actions";
-import { Subject, combineLatest } from "rxjs";
-import { debounceTime } from "rxjs/operators";
-
-const regionsSubject = new Subject();
-const territoriesSubject = new Subject();
-
-const regions$ = regionsSubject.asObservable();
-const territories$ = territoriesSubject.asObservable();
+import classNames from "classnames";
+import { checkAllCheckboxes } from "../../utilities/checkAllCheckboxes";
+import View from "../../components/View/View";
+import {
+  FORM_EXTERNAL_OFFSET,
+  FORM_INTERNAL_OFFSET
+} from "../../const/FORM_LAYOUT";
+import FiltersContainer from "../../containers/FiltersContainer/FiltersContainer";
+import {
+  regionsSubject,
+  territoriesSubject
+} from "../../const/categoriesObservables";
 
 export class Layout extends Component {
-  componentDidMount() {
-    this.props.getRegions();
+  allButtonClickHandler = () => {
+    const { regions, toggleCheckAll, checkAllCheckboxes } = this.props;
 
-    combineLatest(regions$, territories$)
-      .pipe(debounceTime(10))
-      .subscribe(v => {
-        this.props.loadReports(v[0], v[1]);
-      });
-  }
+    const checkedState = this.props.checkAll;
+    toggleCheckAll(!checkedState);
+
+    checkAllCheckboxes("regions", regions.map(r => r["name"]), !checkedState);
+  };
 
   render() {
     const loader = (
@@ -38,28 +40,81 @@ export class Layout extends Component {
       </div>
     );
 
+    const checkedClass = this.props.checkAll ? "checked" : "";
+    const titleStyle = {
+      fontSize: 18,
+      fontWeight: 600,
+      color: "#9e9e9e",
+      marginBottom: "1.8rem"
+    };
+
     return (
       <div className="Layout">
         {!this.props.fadeOut ? loader : null}
-        <div className="header">
-          <div className="uploader">
-            <UploaderForm />
-          </div>
-          <RegionsForm subject={regionsSubject} />
-        </div>
         <div className="Layout-container">
           <div className="sidebar">
-            <div className="title">
-              {this.props.territories.length > 0
-                ? "Select territories"
-                : "Select regions"}
-            </div>
+            <UploaderForm />
             <div className="sidebar-scrollview">
-              <TerritoriesForm subject={territoriesSubject} />
+              <button
+                autoFocus
+                type="button"
+                className={classNames("check-all-btn", checkedClass)}
+                onClick={this.allButtonClickHandler}
+              >
+                <span className="checkbox-button-label" title="Select all">
+                  Select all
+                </span>
+              </button>
+              <View
+                style={{
+                  padding: `${FORM_INTERNAL_OFFSET}px`,
+                  backgroundColor: "#fff",
+                  borderRadius: "8px",
+                  margin: `${FORM_EXTERNAL_OFFSET}px 0`,
+                  flex: "none"
+                }}
+              >
+                <View style={titleStyle}>Select region</View>
+                <RegionsForm subject={regionsSubject} />
+              </View>
+              <View
+                style={{
+                  padding: `${FORM_INTERNAL_OFFSET}px`,
+                  backgroundColor: "#fff",
+                  borderRadius: "8px",
+                  margin: `${FORM_EXTERNAL_OFFSET}px 0`,
+                  overflow: "auto",
+                  flex: 1
+                }}
+              >
+                <View style={titleStyle}>Select territory</View>
+                <TerritoriesForm
+                  style={{
+                    display:
+                      this.props.territories.length > 0 ? "block" : "none"
+                  }}
+                  subject={territoriesSubject}
+                />
+                <div
+                  style={{
+                    fontSize: "1rem",
+                    color: "#cecece",
+                    display:
+                      this.props.territories.length === 0 ? "block" : "none"
+                  }}
+                >
+                  Choose region(s) first.
+                </div>
+              </View>
             </div>
             <div className="bottom-gradient" />
           </div>
-          <div className="main">{this.props.children}</div>
+          <div className="main-wrapper">
+            <div className="header">
+              <FiltersContainer />
+            </div>
+            <div className="main">{this.props.children}</div>
+          </div>
         </div>
       </div>
     );
@@ -72,16 +127,20 @@ Layout.defaultProps = {};
 const mapStateToProps = state => {
   return {
     formTerritories: state.form.territories,
+    regions: state.regions.regions,
     territories: state.territories.territories,
     appIsLoading: state.init.appIsLoading,
-    fadeOut: state.init.fadeOut
+    fadeOut: state.init.fadeOut,
+    checkAll: state.regions.checkAll
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getRegions: () => dispatch(actionCreators.loadRegions()),
-    loadReports: (R, T) => dispatch(actionCreators.loadReports(R, T))
+    loadReports: (R, T) => dispatch(actionCreators.loadReports(R, T)),
+    toggleCheckAll: value =>
+      dispatch(actionCreators.checkAllRegionsTerritories(value)),
+    checkAllCheckboxes: checkAllCheckboxes(dispatch)
   };
 };
 

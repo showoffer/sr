@@ -28,6 +28,6 @@ describe("General", () => {
     cy.route("GET", url, "fixture:regions").as("load");
     cy.visit("/");
     cy.get(".regions-form :nth-child(3) > .checkbox-outer > .checkbox").click();
-    cy.get(".sidebar .checkbox").should("have.length", 1);
+    cy.get(".TerritoriesForm .checkbox").should("have.length", 1);
   });
 });

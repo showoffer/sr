@@ -4,6 +4,13 @@
 
 }
 
+.GraphLink {
+    text-decoration: none;
+    &:active, &:visited {
+        color: inherit;
+    }
+}
+
 .GraphDashboard .tile {
     width: 50%;
     box-sizing: border-box;

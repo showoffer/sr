@@ -11,7 +11,23 @@
 .GraphShell-Title-Wrap {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding-bottom: 1.4rem;
+    cursor: pointer;
+    .GraphShell-Title-left, .GraphShell-Title-right  {
+        display: flex;
+        align-items: center;
+    }
+    .GraphShell-Title-right {
+        .DetailsImg {
+            width: 12px;
+            height: 16px;
+            background: url("../../assets/icon-go-to-deals.svg");
+            &:hover {
+                background: url("../../assets/icon-go-to-deals-active.svg");
+            }
+        }
+    }
 }
 
 .GraphShell-Title {

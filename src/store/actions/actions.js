@@ -4,7 +4,14 @@ import Region from "../models/Region";
 import { getReports } from "../../utilities/getReports";
 import { GRAPHS_DATA } from "../../const/GRAPHS_DATA";
 import { getReportGraphValue } from "../../utilities/getReportGraphValues";
+import {
+  EMIT_SELECTED_CATEGORIES,
+  EMIT_SELECTED_SUBCATEGORIES,
+  SET_ALL_CATEGORIES,
+  SET_FOUND_CATEGORIES
+} from "../reducers/categories";
 
+export const GET_ME_GRAPHS = "GET_ME_GRAPHS";
 export const CHANGE_GRAPHS = "CHANGE_GRAPHS";
 
 export const APP_IS_LOADED = "APP_IS_LOADED";
@@ -59,10 +66,28 @@ export const checkAllRegionsTerritories = value => {
 };
 
 export const loadRegions = () => {
+  const getRegions = axios.get(`api/Regions`);
+  const getCategories = axios.get(`api/Category`);
+
   return dispatch => {
-    axios.get(`api/Regions`).then(
-      res => {
-        const regions = res.data.map(v => new Region(v));
+    originAxios.all([getRegions, getCategories]).then(
+      originAxios.spread((...rest) => {
+        const RegionsData = rest[0].data;
+        const categories = rest[1].data;
+
+        dispatch({
+          type: SET_ALL_CATEGORIES,
+          payload: { categories, selector: "allCategories" }
+        });
+
+        dispatch({
+          type: SET_FOUND_CATEGORIES,
+          payload: { categories, selector: "foundCategories" }
+        });
+        dispatch({ type: EMIT_SELECTED_CATEGORIES });
+        dispatch({ type: EMIT_SELECTED_SUBCATEGORIES });
+
+        const regions = RegionsData.map(v => new Region(v));
         dispatch(regionsFetched(regions));
         dispatch({ type: APP_IS_LOADED, isLoading: false });
         setTimeout(() => {
@@ -71,7 +96,7 @@ export const loadRegions = () => {
         if (regions.length > 0) {
           dispatch(fileIsLoaded(true));
         }
-      },
+      }),
       err => console.log(err)
     );
   };
